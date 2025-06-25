@@ -391,8 +391,186 @@ Eventually, this accumulated memory can be used for downstream tasks like:
 - Simulating ribosome dynamics
 
 
+## 📄 Case Study: Mamba in "Orthrus — Towards Evolutionary and Functional RNA Foundation Models"
+
+Now that we've built a strong intuition for how Mamba works, let’s look at how it performs in the real world.
+
+In this section, we’ll briefly explore the paper **"Orthrus: Towards Evolutionary and Functional RNA Foundation Models"**, where the authors used Mamba to model RNA transcripts, and achieved **better performance than Transformer-based architectures**.
+
+The paper makes a compelling case for using state-space models in biological sequence modeling, especially when it comes to capturing both **evolutionary signals** and **functional roles** encoded in RNA.
+
+Let’s dive into how they integrated Mamba, what tasks they evaluated, and why Mamba outperformed the attention-heavy baselines.
+
+### 🧬 What Is Orthrus?
+
+Orthrus is a **foundation model trained on RNA sequences** with two key innovations:
+
+1. **Uses Mamba** — not a Transformer, as the backbone encoder.  
+2. **Trained via contrastive learning** — encouraging embeddings of functionally similar RNAs (like splice isoforms and orthologs) to cluster together.
+
+---
+
+### 💡 Why Is This Important?
+
+RNA sequences present unique modeling challenges:
+
+- **Long sequences**: Full-length mRNAs can exceed 12,000 nucleotides.  
+- **Functional complexity**: Function is encoded not just in the protein product, but in:
+  - RNA structure  
+  - Splicing patterns  
+  - Motif spacing  
+  - Synonymous codon usage  
+- **Small changes, big effects**: Even minor edits (e.g., synonymous substitutions or splice shifts) can affect stability, translation, or localization.
+
+#### 🧱 The Problem with Existing Models
+
+Most past models (e.g., DNA-BERT, Nucleotide Transformer) use **Masked Language Modeling (MLM)** — but:
+
+- MLM forces the model to "guess" masked bases — even in **non-informative** regions (like intergenic or unselected sequences).
+- MLM doesn't reflect **biological similarity** — such as isoforms with identical function but different sequences.
+
+Orthrus addresses these issues by modeling **functional similarity**, not token recovery.
+
+---
+
+### 🐍 Why Orthrus Uses Mamba
+
+Instead of Transformers, Orthrus uses Mamba, and for good reason:
+
+| Feature                          | Why It Helps for RNA Modeling                                    |
+|----------------------------------|-------------------------------------------------------------------|
+| 🔁 Linear memory & time         | Handles long RNA sequences without truncation                    |
+| 🧠 Sequential processing        | Naturally fits mRNA’s 5'→3' directional structure                 |
+| 🎯 Selective memory            | Adapts dynamically to exon-intron boundaries, motifs, structure   |
+| 🚫 No full attention needed    | Filters out irrelevant contexts, focuses on what matters         |
+
+Mamba provides a **continuous, efficient, and biologically aware memory system** ideal for the complexity of RNA.
+
+---
+
+### 🎯 Training Objective: Biologically-Inspired Contrastive Learning
+
+Instead of MLM, Orthrus uses a **contrastive learning approach** based on evolutionary and functional similarity.
+
+#### ✅ Positive Pairs:
+- Splice isoforms from the same gene  
+- Orthologous transcripts across 400+ mammalian species (from the Zoonomia Project)
+
+#### 🔧 Method:
+
+1. For a given RNA, find a related isoform or ortholog.
+2. Encode both with the **same Mamba encoder**.
+3. Apply **Decoupled Contrastive Loss (DCL)**:
+   - Pull functionally similar RNAs together.
+   - Push unrelated sequences apart.
+
+> 🧬 "These RNAs may differ in sequence — but do the same job. Their embeddings should be close."
+
+---
+
+### 📦 Input Representation: A Rich Biological Context
+
+Orthrus doesn’t just use raw nucleotide sequences. It uses a **6-track input representation**, giving Mamba deep biological signals:
+
+- ✅ Nucleotide bases (A, U, C, G)  
+- 🔁 Codon start flags  
+- 🔪 Splice site markers  
+- 🔬 Structure indicators or masks  
+- 🧬 Functional annotations (where available)
+
+This allows the model to learn:
+- Where translation starts  
+- Where exon boundaries occur  
+- How synonymous codons vary functionally  
+- How structural elements affect expression
+
+---
+
+### 🧪 What Orthrus Learns: Downstream Tasks
+
+After pretraining, Orthrus embeddings were evaluated on real RNA biology tasks:
+
+| Task                               | Description                                      |
+|------------------------------------|--------------------------------------------------|
+| 🕒 RNA Half-Life                  | Predict mRNA stability                          |
+| 🍽️ Ribosome Load                | Predict translation efficiency                  |
+| 📍 Protein Localization           | Infer subcellular location                      |
+| 🧠 GO Function                    | Predict biological process/function             |
+| 🧬 Structural Properties          | Exon count, UTR length, etc.                    |
+
+#### 📊 Results:
+
+- Outperforms **DNA-BERT2, HyenaDNA, RNA-FM**
+- Matches or beats **supervised models** like Saluki
+- Strong in **few-shot learning** settings (e.g., <50 samples)
+
+---
+
+### 🧬 Bonus: Isoform-Level Understanding
+
+Orthrus’s embeddings naturally cluster functionally similar isoforms — even when their sequences differ.
+
+> Example: **BCL2L1 Gene**
+- One splice isoform **promotes apoptosis**  
+- Another **prevents apoptosis**  
+- Orthrus embeddings cluster each group separately — reflecting **functional diversity** learned through contrastive training.
+
+---
+
+### ✨ Key Takeaways
+
+| Concept              | Orthrus Approach                                   | Why It Matters for RNA |
+|----------------------|----------------------------------------------------|-------------------------|
+| **Architecture**     | Mamba-based state-space model                     | Scalable, structured memory |
+| **Learning**         | Contrastive, not masked prediction                 | Captures biological similarity |
+| **Input Encoding**   | 6-track (codons, splice sites, etc.)              | Context-aware learning |
+| **Downstream Power** | Predicts stability, function, translation         | Learns codon-level regulation |
+| **Strength**         | Few-shot + generalizable                          | Ideal where experiments are limited |
+
+---
+
+Orthrus showcases the true promise of Mamba:  
+> A model that doesn’t just “process tokens,” but **understands sequences** in ways that reflect the underlying biology.
 
 
+
+---
+
+## 🧠 Final Thoughts
+
+Mamba challenges the dominance of attention-based architectures with an elegant and efficient alternative — one that doesn't just scale better, but **thinks differently**.
+
+From abstract sequence modeling to **real-world biological data like RNA**, Mamba shows its strength in tasks that demand both **long-range understanding** and **local, context-sensitive precision**.
+
+Whether you're a systems researcher, a bioinformatician, or someone fascinated by the intersection of AI and biology — Mamba is a model worth watching, experimenting with, and most importantly, understanding.
+
+---
+
+## 📚 References
+
+1. **Mamba: Linear-Time Sequence Modeling with Selective State Spaces**  
+   Albert Gu, Tri Dao, et al. (2023)  
+   [https://arxiv.org/abs/2312.00752](https://arxiv.org/abs/2312.00752)
+
+2. **Orthrus: Towards Evolutionary and Functional RNA Foundation Models**  
+   Fradkin, P., Shi, R., Isaev, K., Frey, B.J., Morris, Q., Lee, L.J. and Wang, B., 2024 
+   [https://www.biorxiv.org/content/10.1101/2024.03.11.583046v1](https://www.biorxiv.org/content/10.1101/2024.10.10.617658v1)
+
+3. **The genetic and biochemical determinants of mRNA degradation rates in mammals**  
+   Agarwal, V., & Kelley, D. R. (2022). 
+   [https://pubmed.ncbi.nlm.nih.gov/36419176](https://pubmed.ncbi.nlm.nih.gov/36419176/)
+
+4. **Hyenadna: Long-range genomic sequence modeling at single nucleotide resolution**
+   Nguyen, E., Poli, M., Faizi, M., Thomas, A., Wornow, M., Birch-Sykes, C., ... & Baccus, S. (2023).
+   [https://proceedings.neurips.cc](https://proceedings.neurips.cc/paper_files/paper/2023/hash/86ab6927ee4ae9bde4247793c46797c7-Abstract-Conference.html)
+
+5. **Interpretable RNA foundation model from unannotated data for highly accurate RNA structure and function predictions**
+   Chen, J., Hu, Z., Sun, S., Tan, Q., Wang, Y., Yu, Q., ... & Li, Y. (2022)
+   [https://arxiv.org/abs/2204.00300](https://arxiv.org/abs/2204.00300)
+
+---
+
+Thanks for reading — and stay curious! 🧬🐍
 
 
 
