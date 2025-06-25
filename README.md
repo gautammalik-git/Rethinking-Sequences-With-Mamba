@@ -58,7 +58,7 @@ This leads to two major benefits:
 
 You can think of it as a **continuous-time processor** that models how information evolves, rather than brute-force comparing every element to every other element.
 
-#### 🔧 1. State Space Models (SSMs): The Engine Behind Mamba
+### 🔧 1. State Space Models (SSMs): The Engine Behind Mamba
 
 Imagine a box that holds a hidden state, like a moving summary of what it has seen so far.
 
@@ -83,7 +83,7 @@ These **A, B, C, D matrices** are like gears that determine:
 
 So far, this is **linear and efficient**, no pairwise comparisons like attention.
 
-## 🧠 Making It Selective — Mamba’s Twist
+### 🧠 2. Making It Selective — Mamba’s Twist
 
 Here’s where Mamba gets really powerful, and fundamentally different from traditional SSMs.
 
@@ -174,13 +174,12 @@ In other words:
 | Quadratic in sequence length           | Linear in sequence length                          |
 | Global communication at each step      | Local, learned memory blending over time           |
 
----
-
 By combining the sequential nature of SSMs with input-conditioned convolution kernels, Mamba achieves something unique:  
 **Efficient, continuous-time, token-aware memory**, perfect for long, structured sequences like those in biology.
 
+---
 
-## 🔄 3. Token Mixing, via a Fast Scan (Instead of Attention)
+### 🔄 3. Token Mixing, via a Fast Scan (Instead of Attention)
 
 Once Mamba generates the dynamic convolution kernel for each token, it doesn’t just apply it in isolation.
 
@@ -188,7 +187,7 @@ Instead, it **scans over the sequence**, applying the kernel to blend each token
 
 ---
 
-### 🧠 What Does “Token Mixing” Mean?
+#### 🧠 What Does “Token Mixing” Mean?
 
 In Transformers, token mixing happens via **self-attention**, every token looks at every other token and computes pairwise interactions.
 
@@ -208,7 +207,8 @@ Because Mamba doesn’t compute full pairwise comparisons, it can scale easily t
 
 ---
 
-## 🚪 4. Gate It Like an LSTM, Controlled Memory Flow
+
+### 🚪 4. Gate It Like an LSTM, Controlled Memory Flow
 
 After token mixing, Mamba applies a **gating mechanism**, similar in spirit to what you might know from LSTMs or GRUs.
 
@@ -253,8 +253,6 @@ The gate:
 
 Finally, the gated output is passed through a **projection layer** — ensuring the output matches the expected model dimensionality (like the output of an MLP in a Transformer block).
 
----
-
 By combining:
 - **Dynamic kernels** (to filter memory),
 - **Fast scans** (for efficient token mixing), and
@@ -262,6 +260,8 @@ By combining:
 
 Mamba builds a **lightweight yet powerful memory system** — one that learns *how to remember*, *what to forget*, and *how to blend* context, all while staying fast and scalable.
 
+
+---
 
 ## 🧬 Mamba Meets Biology: Learning from Codon Sequences
 
@@ -366,9 +366,8 @@ This mirrors biological logic:
 
 > "Should this codon influence the mRNA's predicted stability?"
 
----
 
-### 🔬 Real Use Case: Predicting mRNA Stability
+## 🔬 Real Use Case: Predicting mRNA Stability
 Imagine training the model to classify an mRNA as stable or degraded, based on codon usage.
 
 Here's how Mamba might process our toy sequence:
