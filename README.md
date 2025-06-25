@@ -263,13 +263,133 @@ By combining:
 Mamba builds a **lightweight yet powerful memory system** — one that learns *how to remember*, *what to forget*, and *how to blend* context, all while staying fast and scalable.
 
 
+## 🧬 Mamba Meets Biology: Learning from Codon Sequences
+
+Let’s ground everything we've learned so far using a real biological example — an **mRNA codon sequence**.
+
+---
+
+### 📘 The Setup: A Codon Sequence
+
+Consider a short mRNA snippet:
+
+```python
+AUG  UUU  GGC  CGA  UAA
+```
 
 
+Which translates to:
 
+- **AUG** – Start codon (Methionine)  
+- **UUU** – Phenylalanine  
+- **GGC** – Glycine  
+- **CGA** – Arginine  
+- **UAA** – Stop codon  
 
+Each codon — a triplet of nucleotides — is a **semantic unit**, or a “word,” in the language of biology.  
+Even when codons map to the same amino acid (i.e., are **synonymous**), they can influence translation differently — affecting:
+- Ribosomal speed  
+- mRNA stability  
+- Co-translational folding  
 
+We want Mamba to learn these nuanced dependencies in sequence — and here’s how it does it.
 
+---
 
+### 🧠 Step-by-Step: Mamba's Perspective on This Sequence
+
+---
+
+#### 🧩 Step 1: Input Representation
+
+Each codon is first embedded into a dense vector space:
+
+```python
+codon = ["AUG", "UUU", "GGC", "CGA", "UAA"]
+embeddings = codon_embed(codon)
+```
+
+This results in a sequence of embeddings:
+
+```math
+E₀  E₁  E₂  E₃  E₄
+```
+
+Each Eᵢ encodes biologically relevant features such as:
+
+- Codon frequency or bias
+- GC content
+- Amino acid identity
+- mRNA secondary structure context
+- Evolutionary conservation
+- This forms the input to the Mamba model.
+
+---
+
+#### 🔁 Step 2: Sequential Scanning with Selective Memory
+
+Unlike Transformers, which compute pairwise comparisons between all codons, Mamba processes the sequence step-by-step, using a dynamically filtered memory:
+
+```python
+x₀ = init_state
+for each Eᵢ:
+    kernelᵢ = f(Eᵢ)                # Learn token-specific convolution kernel
+    xᵢ = A(Eᵢ) * xᵢ₋₁ + B(Eᵢ) * Eᵢ  # Update memory state
+    yᵢ = C(Eᵢ) * xᵢ + D(Eᵢ) * Eᵢ   # Compute token-wise output
+```
+
+Here’s what’s happening:
+
+- Each codon generates its own kernel — a custom temporal filter based on its properties.
+- This kernel controls how the memory state updates, shaping how much the model remembers or forgets.
+- The updated state xᵢ acts like a running biological context — much like how the ribosome experiences the transcript linearly.
+
+---
+
+#### 🚪 Step 3: Gating the Output
+
+After computing yᵢ, Mamba applies a gate:
+
+```python
+outputᵢ = gate(Eᵢ) * yᵢ
+```
+
+This allows the model to selectively control which codons influence the final decision.
+
+Why gating matters:
+
+- Not every codon is equally informative in every context.
+- Synonymous codons may only matter under specific structural or positional settings.
+- The gate can suppress noise, enhance key signals, and inject non-linearity to improve modeling power.
+
+This mirrors biological logic:
+
+> "Should this codon influence the mRNA's predicted stability?"
+
+---
+
+### 🔬 Real Use Case: Predicting mRNA Stability
+Imagine training the model to classify an mRNA as stable or degraded, based on codon usage.
+
+Here's how Mamba might process our toy sequence:
+
+- AUG → Start codon — likely triggers state initialization
+- UUU → Rare codon — may introduce ribosome pausing
+- GGC → Common codon — leads to smooth elongation
+- CGA → Known to cause stalls — may increase dwell time
+- UAA → Stop codon — affects polyadenylation, decay signals
+
+As Mamba walks this sequence, it:
+
+- Dynamically adjusts its internal state to reflect translation dynamics
+- Learns when and how to gate token outputs based on context
+- Builds a memory trace of biologically meaningful transitions
+
+Eventually, this accumulated memory can be used for downstream tasks like:
+
+- Predicting stability or degradation rates
+- Modeling protein folding co-translationally
+- Simulating ribosome dynamics
 
 
 
