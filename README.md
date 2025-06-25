@@ -538,11 +538,13 @@ Orthrus showcases the true promise of Mamba:
 
 ## 🧠 Final Thoughts
 
-Mamba challenges the dominance of attention-based architectures with an elegant and efficient alternative — one that doesn't just scale better, but **thinks differently**.
+Mamba challenges the dominance of attention-based architectures with an elegant and efficient alternative, one that doesn't just scale better, but **thinks differently**.
 
 From abstract sequence modeling to **real-world biological data like RNA**, Mamba shows its strength in tasks that demand both **long-range understanding** and **local, context-sensitive precision**.
 
-Whether you're a systems researcher, a bioinformatician, or someone fascinated by the intersection of AI and biology — Mamba is a model worth watching, experimenting with, and most importantly, understanding.
+Whether you're a systems researcher, a bioinformatician, or someone fascinated by the intersection of AI and biology, Mamba is a model worth watching, experimenting with, and most importantly, understanding.
+
+🔧 For those interested in experimenting with Mamba, this [repository](https://github.com/alxndrTL/mamba.py.git) by Alexandre Torres–Leguet offers an easy-to-follow PyTorch implementation. Definitely worth a look!
 
 ---
 
@@ -568,6 +570,9 @@ Whether you're a systems researcher, a bioinformatician, or someone fascinated b
    Chen, J., Hu, Z., Sun, S., Tan, Q., Wang, Y., Yu, Q., ... & Li, Y. (2022)
    [https://arxiv.org/abs/2204.00300](https://arxiv.org/abs/2204.00300)
 
+6. **Alexandre Torres–Leguet.**
+   *mamba.py: A simple, hackable and efficient Mamba implementation in pure PyTorch and MLX.*
+   Version 1.0, 2024. Available at: [https://github.com/alxndrTL/mamba.py](https://github.com/alxndrTL/mamba.py)
 ---
 
 Thanks for reading — and stay curious! 🧬🐍
