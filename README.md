@@ -17,7 +17,7 @@ We'll cover:
 - Why it's a serious contender to Transformers  
 - A hands-on example using **biological sequences** to help you understand how Mamba actually works in practice
 
-> *P.S. — Sorry tech folks, but biology is the playground I love. If you’ve stumbled onto this repo, I hope the biological angle draws you in, not out!*
+> *P.S. - Sorry tech folks, but biology is the playground I love. If you’ve stumbled onto this repo, I hope the biological angle draws you in, not out!*
 
 ## 🔥 The Problem with Transformers
 
@@ -83,7 +83,7 @@ These **A, B, C, D matrices** are like gears that determine:
 
 So far, this is **linear and efficient**, no pairwise comparisons like attention.
 
-### 🧠 2. Making It Selective — Mamba’s Twist
+### 🧠 2. Making It Selective: Mamba’s Twist
 
 Here’s where Mamba gets really powerful, and fundamentally different from traditional SSMs.
 
