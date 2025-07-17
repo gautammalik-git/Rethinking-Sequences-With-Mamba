@@ -575,7 +575,7 @@ Whether you're a systems researcher, a bioinformatician, or someone fascinated b
    Version 1.0, 2024. Available at: [https://github.com/alxndrTL/mamba.py](https://github.com/alxndrTL/mamba.py)
 ---
 
-Thanks for reading — and stay curious! 🧬🐍
+Thanks for reading, and stay curious! 🧬🐍
 
 
 
