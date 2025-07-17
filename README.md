@@ -165,7 +165,7 @@ In other words:
 
 ---
 
-#### 🔍 Attention vs. Mamba — A Comparison of Selection
+#### 🔍 Attention vs. Mamba - A Comparison of Selection
 
 | Transformer (Attention)                | Mamba (Selective SSM)                              |
 |----------------------------------------|----------------------------------------------------|
@@ -244,28 +244,28 @@ Similarly, in Mamba:
 
 #### 🔧 Why This Matters
 
-Without the gate, Mamba would be limited to *linear transformations* of past inputs — which may not be expressive enough for complex tasks.
+Without the gate, Mamba would be limited to *linear transformations* of past inputs - which may not be expressive enough for complex tasks.
 
 The gate:
 - Injects **non-linearity**
 - Enables **dynamic control**
 - Helps the model **decide how much memory to pass on**, just like an LSTM deciding how much of its cell state to retain
 
-Finally, the gated output is passed through a **projection layer** — ensuring the output matches the expected model dimensionality (like the output of an MLP in a Transformer block).
+Finally, the gated output is passed through a **projection layer** - ensuring the output matches the expected model dimensionality (like the output of an MLP in a Transformer block).
 
 By combining:
 - **Dynamic kernels** (to filter memory),
 - **Fast scans** (for efficient token mixing), and
 - **Gates** (for non-linear control),
 
-Mamba builds a **lightweight yet powerful memory system** — one that learns *how to remember*, *what to forget*, and *how to blend* context, all while staying fast and scalable.
+Mamba builds a **lightweight yet powerful memory system** - one that learns *how to remember*, *what to forget*, and *how to blend* context, all while staying fast and scalable.
 
 
 ---
 
 ## 🧬 Mamba Meets Biology: Learning from Codon Sequences
 
-Let’s ground everything we've learned so far using a real biological example — an **mRNA codon sequence**.
+Let’s ground everything we've learned so far using a real biological example - an **mRNA codon sequence**.
 
 ---
 
@@ -286,13 +286,13 @@ Which translates to:
 - **CGA** – Arginine  
 - **UAA** – Stop codon  
 
-Each codon — a triplet of nucleotides — is a **semantic unit**, or a “word,” in the language of biology.  
-Even when codons map to the same amino acid (i.e., are **synonymous**), they can influence translation differently — affecting:
+Each codon - a triplet of nucleotides - is a **semantic unit**, or a “word,” in the language of biology.  
+Even when codons map to the same amino acid (i.e., are **synonymous**), they can influence translation differently - affecting:
 - Ribosomal speed  
 - mRNA stability  
 - Co-translational folding  
 
-We want Mamba to learn these nuanced dependencies in sequence — and here’s how it does it.
+We want Mamba to learn these nuanced dependencies in sequence - and here’s how it does it.
 
 ---
 
@@ -340,9 +340,9 @@ for each Eᵢ:
 
 Here’s what’s happening:
 
-- Each codon generates its own kernel — a custom temporal filter based on its properties.
+- Each codon generates its own kernel - a custom temporal filter based on its properties.
 - This kernel controls how the memory state updates, shaping how much the model remembers or forgets.
-- The updated state xᵢ acts like a running biological context — much like how the ribosome experiences the transcript linearly.
+- The updated state xᵢ acts like a running biological context - much like how the ribosome experiences the transcript linearly.
 
 ---
 
@@ -372,11 +372,11 @@ Imagine training the model to classify an mRNA as stable or degraded, based on c
 
 Here's how Mamba might process our toy sequence:
 
-- AUG → Start codon — likely triggers state initialization
-- UUU → Rare codon — may introduce ribosome pausing
-- GGC → Common codon — leads to smooth elongation
-- CGA → Known to cause stalls — may increase dwell time
-- UAA → Stop codon — affects polyadenylation, decay signals
+- AUG → Start codon - likely triggers state initialization
+- UUU → Rare codon - may introduce ribosome pausing
+- GGC → Common codon - leads to smooth elongation
+- CGA → Known to cause stalls - may increase dwell time
+- UAA → Stop codon - affects polyadenylation, decay signals
 
 As Mamba walks this sequence, it:
 
@@ -391,7 +391,7 @@ Eventually, this accumulated memory can be used for downstream tasks like:
 - Simulating ribosome dynamics
 
 
-## 📄 Case Study: Mamba in "Orthrus — Towards Evolutionary and Functional RNA Foundation Models"
+## 📄 Case Study: Mamba in "Orthrus - Towards Evolutionary and Functional RNA Foundation Models"
 
 Now that we've built a strong intuition for how Mamba works, let’s look at how it performs in the real world.
 
@@ -405,8 +405,8 @@ Let’s dive into how they integrated Mamba, what tasks they evaluated, and why 
 
 Orthrus is a **foundation model trained on RNA sequences** with two key innovations:
 
-1. **Uses Mamba** — not a Transformer, as the backbone encoder.  
-2. **Trained via contrastive learning** — encouraging embeddings of functionally similar RNAs (like splice isoforms and orthologs) to cluster together.
+1. **Uses Mamba** - not a Transformer, as the backbone encoder.  
+2. **Trained via contrastive learning** - encouraging embeddings of functionally similar RNAs (like splice isoforms and orthologs) to cluster together.
 
 ---
 
@@ -424,10 +424,10 @@ RNA sequences present unique modeling challenges:
 
 #### 🧱 The Problem with Existing Models
 
-Most past models (e.g., DNA-BERT, Nucleotide Transformer) use **Masked Language Modeling (MLM)** — but:
+Most past models (e.g., DNA-BERT, Nucleotide Transformer) use **Masked Language Modeling (MLM)** - but:
 
-- MLM forces the model to "guess" masked bases — even in **non-informative** regions (like intergenic or unselected sequences).
-- MLM doesn't reflect **biological similarity** — such as isoforms with identical function but different sequences.
+- MLM forces the model to "guess" masked bases - even in **non-informative** regions (like intergenic or unselected sequences).
+- MLM doesn't reflect **biological similarity** - such as isoforms with identical function but different sequences.
 
 Orthrus addresses these issues by modeling **functional similarity**, not token recovery.
 
@@ -464,7 +464,7 @@ Instead of MLM, Orthrus uses a **contrastive learning approach** based on evolut
    - Pull functionally similar RNAs together.
    - Push unrelated sequences apart.
 
-> 🧬 "These RNAs may differ in sequence — but do the same job. Their embeddings should be close."
+> 🧬 "These RNAs may differ in sequence - but do the same job. Their embeddings should be close."
 
 ---
 
@@ -508,12 +508,12 @@ After pretraining, Orthrus embeddings were evaluated on real RNA biology tasks:
 
 ### 🧬 Bonus: Isoform-Level Understanding
 
-Orthrus’s embeddings naturally cluster functionally similar isoforms — even when their sequences differ.
+Orthrus’s embeddings naturally cluster functionally similar isoforms - even when their sequences differ.
 
 > Example: **BCL2L1 Gene**
 - One splice isoform **promotes apoptosis**  
 - Another **prevents apoptosis**  
-- Orthrus embeddings cluster each group separately — reflecting **functional diversity** learned through contrastive training.
+- Orthrus embeddings cluster each group separately - reflecting **functional diversity** learned through contrastive training.
 
 ---
 
